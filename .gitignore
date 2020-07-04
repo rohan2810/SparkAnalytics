@@ -1,0 +1,128 @@
+# Compiled class file
+*.class
+
+#Save files
+*.save
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+#
+# Project specific excludes
+#
+
+tomcat
+
+#
+# Default excludes
+#
+
+# Binaries
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+*.war
+*.ear
+*.sar
+*.class
+
+# Maven 
+target/
+
+#test-ng
+test-output/
+
+# IntelliJ project files 
+*.iml
+*.iws
+*.ipr
+.idea/
+
+# eclipse project file
+.settings/
+.classpath
+.project
+RemoteSystemsTempFiles
+.metadata
+#**/*/META-INF
+
+# NetBeans specific
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+
+
+# OS
+.DS_Store
+
+# Misc
+*.swp
+release.properties
+pom.xml.releaseBackup
+pom.xml.tag
+
+# STS (Spring Tool Suite)
+.springBeans
+
+# Code Recommenders
+.recommenders/
+
+# Scala IDE specific (Scala & Java development for Eclipse)
+.cache-main
+.scala_dependencies
+.worksheet
+.cache-tests
+bin
+.project
+.classpath
+
+#maven
+/**/*/dependency-reduced-pom.xml
+dependency-reduced-pom.xml
+
+/scala-test/
+/adc/adc-analysis-spark/src/test/scala/com/confluxsys/iap/adc/analysis/spark/test/DynamicDTO.scala
+/**/*/metastore_db
+
+
+/adc/adc-analysis-spark/src/test/scala/com/confluxsys/iap/adc/analysis/spark/test/batchprocess/DataQualityCheck.scala
+
+
+
+/Servers/
+node/
+
+
+adc-ui/yarn-lock.json
+adc-ui/node/
+adc-ui/node_modules/
+adc-ui/.vscode/
+adc-ui/.settings/
+
+
