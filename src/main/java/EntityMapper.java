@@ -8,7 +8,6 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.function.BiFunction;
 
 public class EntityMapper implements Function<Map<String, Object>, Row> {
 
@@ -57,75 +56,68 @@ public class EntityMapper implements Function<Map<String, Object>, Row> {
 
     });
 
-    private final BiFunction<Map<String, Object>, StructType, Row> relationshipMapper = new BiFunction<Map<String, Object>, StructType, Row>() {
-        @Override
-        public Row apply(Map<String, Object> data, StructType schema) {
-            Object[] fields = new Object[schema.length()];
-            StructField[] fieldSchema = schema.fields();
-            Object value;
-            Map<String, Object> relatedEntity = (Map<String, Object>) data.get("RelatedEntity");
-            Map<String, Object> vertex = (Map<String, Object>) relatedEntity.get("$RelatedEntity");
-            Map<String, Object> edge = (Map<String, Object>) relatedEntity.get("Is_Related_To");
-            for (int i = 0; i < fieldSchema.length; i++) {
-                if (fieldSchema[i].name().equals("relatedEntityKey")) {
-                    value = unwrap(vertex.get("entityKey"));
-                } else if (fieldSchema[i].name().equals("relatedEntityGlobalId")) {
-                    value = unwrap(vertex.get("entityGlobalId"));
-                } else {
-                    value = unwrap(edge.get(fieldSchema[i].name()));
-                }
-                fields[i] = value;
-            }
-            return RowFactory.create(fields);
-        }
-    };
-    private final BiFunction<Map<String, Object>, StructType, Row> alertMapper = new BiFunction<Map<String, Object>, StructType, Row>() {
-        @Override
-        public Row apply(Map<String, Object> data, StructType schema) {
-            Object[] fields = new Object[schema.length()];
-            StructField[] fieldSchema = schema.fields();
-            Map<String, Object> alert = (Map<String, Object>) data.get("Alert");
-            Object value = null;
-            for (int i = 0; i < fieldSchema.length; i++) {
-                if (fieldSchema[i].name().equals("messages")) {
-                    if (alert.get(fieldSchema[i].name()) != null) {
-                        value = alert.get(fieldSchema[i].name());
-                        if (value instanceof List) {
-                            Object[] fieldValue = ((List<List<List<String>>>) value).get(0).stream().map(
-                                    listOfTup -> RowFactory.create(listOfTup.toArray())
-                            ).toArray();
-                            fields[i] = fieldValue;
-                        } else
-                            throw new IllegalArgumentException("Expected a list of object, got: " + value + value.getClass().getName());
-                    } else {
-                        fields[i] = null;
-                    }
-                } else {
-                    value = unwrap(alert.get(fieldSchema[i].name()));
-                    fields[i] = value;
-                }
-            }
-            return RowFactory.create(fields);
-        }
-    };
-    private final BiFunction<Map<String, Object>, StructType, Row> actorMapper = new BiFunction<Map<String, Object>, StructType, Row>() {
-        @Override
-        public Row apply(Map<String, Object> data, StructType schema) {
-
-            Object[] fields = new Object[schema.size()];
-            StructField[] fieldSchema = schema.fields();
-            Object value;
-            Map<String, Object> actor = (Map<String, Object>) data.get("Actor");
-            Map<String, Object> edge = (Map<String, Object>) actor.get("With_Actor");
-            Map<String, Object> vertex = (Map<String, Object>) data.get("Person");
-            for (int i = 0; i < fieldSchema.length; i++) {
+    private Row relationshipMapper(Map<String, Object> data, StructType schema) {
+        Object[] fields = new Object[schema.length()];
+        StructField[] fieldSchema = schema.fields();
+        Object value;
+        Map<String, Object> relatedEntity = (Map<String, Object>) data.get("RelatedEntity");
+        Map<String, Object> vertex = (Map<String, Object>) relatedEntity.get("$RelatedEntity");
+        Map<String, Object> edge = (Map<String, Object>) relatedEntity.get("Is_Related_To");
+        for (int i = 0; i < fieldSchema.length; i++) {
+            if (fieldSchema[i].name().equals("relatedEntityKey")) {
+                value = unwrap(vertex.get("entityKey"));
+            } else if (fieldSchema[i].name().equals("relatedEntityGlobalId")) {
+                value = unwrap(vertex.get("entityGlobalId"));
+            } else {
                 value = unwrap(edge.get(fieldSchema[i].name()));
+            }
+            fields[i] = value;
+        }
+        return RowFactory.create(fields);
+    }
+
+    private Row alertMapper(Map<String, Object> data, StructType schema) {
+        Object[] fields = new Object[schema.length()];
+        StructField[] fieldSchema = schema.fields();
+        Map<String, Object> alert = (Map<String, Object>) data.get("Alert");
+        Object value = null;
+        for (int i = 0; i < fieldSchema.length; i++) {
+            if (fieldSchema[i].name().equals("messages")) {
+                if (alert.get(fieldSchema[i].name()) != null) {
+                    value = alert.get(fieldSchema[i].name());
+                    if (value instanceof List) {
+                        Object[] fieldValue = ((List<List<List<String>>>) value).get(0).stream().map(
+                                listOfTup -> RowFactory.create(listOfTup.toArray())
+                        ).toArray();
+                        fields[i] = fieldValue;
+                    } else
+                        throw new IllegalArgumentException("Expected a list of object, got: " + value + value.getClass().getName());
+                } else {
+                    fields[i] = null;
+                }
+            } else {
+                value = unwrap(alert.get(fieldSchema[i].name()));
                 fields[i] = value;
             }
-            return RowFactory.create(fields);
         }
+        return RowFactory.create(fields);
+    }
 
-    };
+    private Row actorMapper(Map<String, Object> data, StructType schema) {
+
+        Object[] fields = new Object[schema.size()];
+        StructField[] fieldSchema = schema.fields();
+        Object value;
+        Map<String, Object> actor = (Map<String, Object>) data.get("Actor");
+        Map<String, Object> edge = (Map<String, Object>) actor.get("With_Actor");
+        Map<String, Object> vertex = (Map<String, Object>) data.get("Person");
+        for (int i = 0; i < fieldSchema.length; i++) {
+            value = unwrap(edge.get(fieldSchema[i].name()));
+            fields[i] = value;
+        }
+        return RowFactory.create(fields);
+    }
+
 
     public Row call(Map<String, Object> data) {
         StructField[] fieldSchemaArr = schema.fields();
@@ -139,7 +131,7 @@ public class EntityMapper implements Function<Map<String, Object>, Row> {
                     ArrayType relationshipSchema = (ArrayType) fieldSchema.dataType();
                     Object[] rowValue = ((List<Map<String, Object>>) data.get(fieldSchema.name())).stream().map(
                             aRawValue -> {
-                                return relationshipMapper.apply(aRawValue, (StructType) relationshipSchema.elementType());
+                                return relationshipMapper(aRawValue, (StructType) relationshipSchema.elementType());
                             }
                     ).toArray();
                     rowValues[iFieldSchema] = rowValue;
@@ -148,7 +140,7 @@ public class EntityMapper implements Function<Map<String, Object>, Row> {
                     ArrayType actorSchema = (ArrayType) fieldSchema.dataType();
                     Object[] rowValue1 = ((List<Map<String, Object>>) data.get("$relationships")).stream().map(
                             aRawValue -> {
-                                return actorMapper.apply(aRawValue, (StructType) actorSchema.elementType());
+                                return actorMapper(aRawValue, (StructType) actorSchema.elementType());
                             }
                     ).toArray();
                     rowValues[iFieldSchema] = rowValue1;
@@ -157,7 +149,7 @@ public class EntityMapper implements Function<Map<String, Object>, Row> {
                     ArrayType alertSchema = (ArrayType) fieldSchema.dataType();
                     Object[] rowValue2 = ((List<Map<String, Object>>) data.get(fieldSchema.name())).stream().map(
                             aRawValue -> {
-                                return alertMapper.apply(aRawValue, (StructType) alertSchema.elementType());
+                                return alertMapper(aRawValue, (StructType) alertSchema.elementType());
                             }
                     ).toArray();
                     rowValues[iFieldSchema] = rowValue2;
