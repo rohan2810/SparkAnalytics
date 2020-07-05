@@ -35,7 +35,7 @@ public class TestEntityMapper {
 
 
     @Test
-    public void test() throws Exception {
+    public void testCompleteFlow() throws Exception {
         Logger logger = LoggerFactory.getLogger(TestEntityMapper.class);
         Reader reader = new FileReader("src/main/resources/data/completeGraph.groovy");
         g.V().drop();
@@ -52,5 +52,6 @@ public class TestEntityMapper {
 
 
     }
+
 
 }

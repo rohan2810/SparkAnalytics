@@ -172,68 +172,18 @@ public class EntityMapper implements Function<Map<String, Object>, Row> {
 
                 default:
                     // This is entity attribute
-                    Object rawValue = entity.get(fieldSchema.name());
-                    rowValues[iFieldSchema] = unwrap(rawValue);
+                    if (entity.get(fieldSchema.name()) != null) {
+                        Object rawValue = entity.get(fieldSchema.name());
+                        rowValues[iFieldSchema] = unwrap(rawValue);
+                    } else {
+                        rowValues[iFieldSchema] = null;
+                    }
                     break;
             }
 
         }
         return RowFactory.create(rowValues);
     }
-//
-//    public Row callX(Map<String, Object> data) {
-//
-//        StructField[] fieldSchema = schema.fields();
-//        List<Object> fields = new ArrayList<>(fieldSchema.length);
-//        for (int i = 0; i < data.size(); i++) {
-//            Object rawValue;
-//            Object fieldValue;
-//            Map<String, Object> entity = (Map<String, Object>) data.get("Entity");
-//            for (int j = 0; j < entity.size() - 1; j++) {
-//                rawValue = entity.get(fieldSchema[i].name());
-//                fieldValue = unwrap(rawValue);
-//                fields.add(i++, fieldValue);
-//            }
-//            rawValue = data.get(fieldSchema[i].name());
-//            if (rawValue != null) {
-//                switch (fieldSchema[i].name()) {
-//                    case "$relationships":
-//                        ArrayType relationshipSchema = (ArrayType) fieldSchema[i].dataType();
-//                        fieldValue = ((List<Map<String, Object>>) rawValue).stream().map(
-//                                aRawValue -> {
-//                                    return relationshipMapper.apply(aRawValue, (StructType) relationshipSchema.elementType());
-//                                }
-//                        ).collect(Collectors.toList());
-//                        fields.add(i, fieldValue);
-//                    case "$actors":
-//                        ArrayType actorSchema = (ArrayType) fieldSchema[i].dataType();
-//                        rawValue = data.get(fieldSchema[i].name());
-//                        fieldValue = ((List<Map<String, Object>>) rawValue).stream().map(
-//                                aRawValue -> {
-//                                    return actorMapper.apply(aRawValue, (StructType) actorSchema.elementType());
-//                                }
-//                        ).collect(Collectors.toList());
-//                        fields.add(i, fieldValue);
-//                    case "$alerts":
-//                        ArrayType alertSchema = (ArrayType) fieldSchema[i + 2].dataType();
-//                        rawValue = data.get(fieldSchema[i + 2].name());
-//                        fieldValue = ((List<Map<String, Object>>) rawValue).stream().map(
-//                                aRawValue -> {
-//                                    return alertMapper.apply(aRawValue, (StructType) alertSchema.elementType());
-//                                }
-//                        ).collect(Collectors.toList());
-//                        fields.add(i, fieldValue);
-//                    default:
-//                        fieldValue = unwrap(rawValue);
-//                        break;
-//                }
-//            } else {
-//                fields.add(i, null);
-//            }
-//        }
-//        return RowFactory.create(fields);
-//    }
-
 
     private Object unwrap(Object obj) {
         Object value;
