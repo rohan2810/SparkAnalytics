@@ -119,9 +119,8 @@ public class IAPEntityDataLookup {
 
                 by(valueMap()).
 
-                by(select("entity").outE("With_Alert").as("With_Alert").inV().hasLabel("Alert").as("Alert").
-                        select("With_Alert", "Alert").
-                        by(valueMap().by(fold())).
+                by(select("entity").out("With_Alert").hasLabel("Alert").as("Alert").
+                        select("Alert").
                         by(valueMap("level", "raisedTime", "gid", "alertType", "summary", "taskId", "valuePath", "valueSignature", "messages", "acqRequired", "acknowledged")).fold()).
 
 
