@@ -126,8 +126,8 @@ public class IAPEntityDataLookup {
 
                 by(select("entity").in("Is").as("Bridge").project("Actor", "RelatedEntity").
                         by(outE("With_Actor").as("With_Actor").inV().hasLabel("Person").as("Person").select("With_Actor", "Person").
-                                by(valueMap("type", "data", "valuePath", "valueSignature", "userId").by(fold())).
-                                by(valueMap())).
+                                by(valueMap("type", "data", "valuePath", "valueSignature").by(fold())).
+                                by(valueMap("userId"))).
                         by(outE("Is_Related_To").as("Is_Related_To").inV().as("RelatedEntity").project("Is_Related_To", "$RelatedEntity").
                                 by(select("Is_Related_To").valueMap("type", "data", "valuePath", "valueSignature", "category").by(fold())).
                                 by(select("RelatedEntity").valueMap("entityKey", "entityGlobalId"))).fold())
