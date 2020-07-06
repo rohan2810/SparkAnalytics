@@ -1,15 +1,10 @@
-import com.datastax.dse.driver.api.core.graph.DseGraph;
-import com.datastax.oss.driver.api.core.CqlSession;
-import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
-import org.apache.tinkerpop.gremlin.process.traversal.AnonymousTraversalSource;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,64 +15,12 @@ public class IAPEntityDataLookup {
     private final GraphTraversalSource g;
     private final SparkSession sparkSession;
 
-//    private Row convertToRow(Map<String, Object> data, StructType schema, Map<String, Function<String, Object>> customMapper) {
-//        List<Object> fields = new ArrayList<>(data.size());
-//        StructField[] fieldSchemaArr = schema.fields();
-//        for (int i = 0; i < fieldSchemaArr.length; i++) {
-//            StructField fieldSchema = fieldSchemaArr[i];
-//            Object rawValue = data.get(fieldSchemaArr[i].name());
-//            if (rawValue != null) {
-//                Object fieldValue = null;
-//                if(fieldSchema.dataType() instanceof StructType) {
-//                    fieldValue = convertToRow((Map<String, Object>)rawValue, (StructType)fieldSchema.dataType(), customMapper);
-//                } else if(fieldSchema.dataType() instanceof ArrayType) {
-//
-//                }
-//
-//            }
-//
-//
-//
-//
-//        }
-//    }
-
 
     public IAPEntityDataLookup(GraphTraversalSource g, SparkSession sparkSession) {
         this.g = g;
         this.sparkSession = sparkSession;
     }
 
-    public static void main(String[] args) {
-        CqlSession session = CqlSession.builder().build();
-        GraphTraversalSource g = AnonymousTraversalSource.traversal().withRemote(DseGraph.remoteConnectionBuilder(session).build());
-        SparkConf conf;
-        JavaSparkContext javaSparkContext;
-
-        conf = new SparkConf();
-        conf.setAppName("Spark MultipleContest Test");
-        conf.setMaster("local[2]");
-//        conf.set("spark.serializer", "org.apache.spark.serializer.KryoSerializer");
-//        conf.registerKryoClasses(new Class[] {EntityMapper.class});
-        SparkSession sparkSession = SparkSession.builder().config(conf).getOrCreate();
-
-
-        try {
-            IAPEntityDataLookup myInstance = new IAPEntityDataLookup(g, sparkSession);
-            Dataset<Row> f = myInstance.getActiveEntities("tenant1", "ad", "inetorgperson", null);
-            f.show();
-        } finally {
-            try {
-                g.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            session.close();
-            sparkSession.close();
-        }
-
-
-    }
 
     /**
      * Lookup Active Entities from IAP
@@ -96,18 +39,8 @@ public class IAPEntityDataLookup {
 
         List<Map<String, Object>> list = getData(tenantId, appId, nativeType);
         JavaRDD<Map<String, Object>> javaRDD = (new JavaSparkContext(sparkSession.sparkContext())).parallelize(list);
-        JavaRDD<Row> mappedList =
-
-                javaRDD.mapPartitions(
-                        itr -> {
-                            EntityMapper mapper = new EntityMapper();
-                            List<Row> mappedValues = new ArrayList<>();
-                            while (itr.hasNext()) {
-                                mappedValues.add(mapper.call(itr.next()));
-                            }
-                            return mappedValues.iterator();
-                        }
-                );
+        EntityMapper mapper = new EntityMapper();
+        JavaRDD<Row> mappedList = javaRDD.map(mapper);
 
         return sparkSession.createDataFrame(mappedList, EntityMapper.schema);
 

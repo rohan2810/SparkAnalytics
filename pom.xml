@@ -18,14 +18,9 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>org.apache.spark</groupId>
-            <artifactId>spark-sql_2.11</artifactId>
-            <version>2.4.5</version>
-        </dependency>
-        <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>${logback.version}</version>
+            <version>1.2.3</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -36,6 +31,11 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
             <version>1.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-sql_2.11</artifactId>
+            <version>2.4.5</version>
         </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>
@@ -58,6 +58,10 @@
             <artifactId>java-driver-core</artifactId>
             <version>4.7.2</version>
             <exclusions>
+<!--                <exclusion>-->
+<!--                    <groupId>lo</groupId>-->
+<!--                    <artifactId></artifactId>-->
+<!--                </exclusion>-->
                 <exclusion>
                     <groupId>org.slf4j</groupId>
                     <artifactId>slf4j-log4j12</artifactId>
