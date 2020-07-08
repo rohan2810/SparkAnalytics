@@ -38,8 +38,7 @@ public class MapPartition {
                                                        List<Row> resultantRows = new ArrayList<>();
                                                        if (input.hasNext()) {
                                                            Row currentRow = input.next();
-                                                           List<Object> values = new ArrayList<>(currentRow.size()); //can be changed to array instead
-
+                                                           Object[] values = new Object[currentRow.size()];
                                                            String data = currentRow.getAs("data");
                                                            String changeLog = currentRow.getAs("changelog");
                                                            JsonNode dataNode = mapper.readTree(data);
@@ -50,11 +49,11 @@ public class MapPartition {
                                                            StructField[] fields = schema.fields();
                                                            for (int i = 0; i < fields.length; i++) {
                                                                if (fields[i].name().equals("data")) {
-                                                                   values.add(changes.toString());
+                                                                   values[i] = (changes.toString());
                                                                } else
-                                                                   values.add(currentRow.get(i));
+                                                                   values[i] = (currentRow.get(i));
                                                            }
-                                                           resultantRows.add(RowFactory.create(values.toArray()));
+                                                           resultantRows.add(RowFactory.create(values));
                                                        }
                                                        return resultantRows.iterator();
                                                    }
