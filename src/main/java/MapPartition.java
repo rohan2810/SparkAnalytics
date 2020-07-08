@@ -21,10 +21,6 @@ public class MapPartition {
     DseGraphFrame gf;
     Dataset<Row> mapPartition;
 
-    public MapPartition(DseGraphFrame gf, Dataset<Row> mapPartition) {
-        this.gf = gf;
-        this.mapPartition = mapPartition;
-    }
 
     public static Dataset<Row> petitioner(Dataset<Row> merged) {
         StructType schema = merged.schema();
@@ -62,9 +58,8 @@ public class MapPartition {
         return ds;
     }
 
-    public void updateGraph() {
-
-        gf.updateVertices("entity",mapPartition);
+    public static void updateGraph(DseGraphFrame gf, Dataset<Row> mapPartition) {
+        gf.updateVertices("Entity", mapPartition);
+        System.out.println("update done");
     }
-
 }
