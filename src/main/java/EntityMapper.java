@@ -12,6 +12,11 @@ import java.util.UUID;
 public class EntityMapper implements Function<Map<String, Object>, Row> {
 
     public static final StructType schema = new StructType(new StructField[]{
+            new StructField("tenantId", DataTypes.StringType, true, Metadata.empty()),
+            new StructField("appId", DataTypes.StringType, true, Metadata.empty()),
+            new StructField("nativeType", DataTypes.StringType, true, Metadata.empty()),
+            new StructField("entityGlobalId", DataTypes.StringType, true, Metadata.empty()),
+            new StructField("entityKey", DataTypes.StringType, true, Metadata.empty()),
             new StructField("data", DataTypes.StringType, true, Metadata.empty()),
             new StructField("status", DataTypes.StringType, true, Metadata.empty()),
             new StructField("metaType", DataTypes.StringType, true, Metadata.empty()),

@@ -58,6 +58,11 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>com.datastax.dse</groupId>
+            <artifactId>dse-external-spark-api</artifactId>
+            <version>6.8.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>6.8.21</version>
@@ -77,6 +82,17 @@
                     <artifactId>jackson-coreutils</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.json</artifactId>
+            <version>1.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.fge</groupId>
+            <artifactId>jackson-coreutils</artifactId>
+            <version>1.8</version>
         </dependency>
     </dependencies>
     <repositories>

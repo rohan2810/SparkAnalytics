@@ -30,7 +30,7 @@ public class IAPEntityDataLookup {
      * @param nativeType
      * @param entityKeys
      * @return a dataframe with following key columns:
-     * All properties of the Entity {data, status, metaType, nativeStatus, nativeAsOnTime, nativeModifiedOnTime, nativeId, name} ==> all vertex
+     * All properties of the Entity {data, status, metaType, nativeStatus, nativeAsOnTime, nativeModifiedOnTime, nativeId, name, entityKey, entityGlobalId} ==> all vertex
      * $relationships(Array of Struct): Related entities (not actors). {type, data, valuePath, valueSignature, category, [relatedEntityKey, relatedEntityGlobalId] ==> rom vertex} else from edge
      * $alerts (Array Of Struct) {level, raisedTime, gid, alertType, summary, taskId, valuePath, valueSignature, messages, acqRequired, acknowledged}  ==> alert vertex
      * $actors (Array of Struct) {type, data, valuePath, valueSignature, userId}  ==> entitlement,account to person(With_actor)

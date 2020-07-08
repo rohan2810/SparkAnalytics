@@ -5,7 +5,9 @@ import org.apache.spark.sql.SparkSession;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import org.apache.tinkerpop.gremlin.structure.Graph;
 import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Test;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -22,10 +24,6 @@ public class TestEntityMapper {
         SparkConf conf = new SparkConf().setAppName("Spark MultipleContest Test").setMaster("local[2]");
         this.sparkSession = SparkSession.builder().config(conf).getOrCreate();
         sparkSession.sparkContext().setLogLevel("ERROR");
-    }
-
-    @BeforeMethod
-    public void initialize() {
         Graph graph = TinkerGraph.open();
         this.g = graph.traversal();
         ScriptEngineManager factory = new ScriptEngineManager();
@@ -40,6 +38,7 @@ public class TestEntityMapper {
         IAPEntityDataLookup k = new IAPEntityDataLookup(g, sparkSession);
         Dataset<Row> ds = k.getActiveEntities("tenant1", "ad", "inetorgperson", null);
         ds.show();
+        g.V().drop().tryNext();
     }
 
     @Test
@@ -49,18 +48,10 @@ public class TestEntityMapper {
         IAPEntityDataLookup k = new IAPEntityDataLookup(g, sparkSession);
         Dataset<Row> ds = k.getActiveEntities("tenant1", "ad", "inetorgperson1", null);
         ds.show();
-//        g.V().drop().next();
+        g.V().drop().tryNext();
 
     }
 
-    @AfterMethod
-    public void closeResource() {
-        try {
-            g.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     @AfterSuite
     public void closeResources() {
