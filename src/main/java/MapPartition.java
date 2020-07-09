@@ -18,10 +18,6 @@ import static com.github.fge.jsonpatch.JsonPatch.fromJson;
 
 public class MapPartition {
 
-    DseGraphFrame gf;
-    Dataset<Row> mapPartition;
-
-
     public static Dataset<Row> petitioner(Dataset<Row> merged) {
         StructType schema = merged.schema();
         Dataset<Row> ds = merged.mapPartitions(new MapPartitionsFunction<Row, Row>() {
