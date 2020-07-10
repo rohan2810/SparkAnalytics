@@ -1,6 +1,3 @@
-
-import com.datastax.bdp.graph.spark.graphframe.DseGraphFrame;
-import com.datastax.bdp.graph.spark.graphframe.DseGraphFrameBuilder;
 import org.apache.spark.SparkConf;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;

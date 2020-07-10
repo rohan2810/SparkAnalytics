@@ -1,4 +1,5 @@
 import com.datastax.bdp.graph.spark.graphframe.DseGraphFrame;
+import com.datastax.bdp.graph.spark.graphframe.DseGraphFrameBuilder;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
@@ -6,6 +7,7 @@ import org.apache.spark.api.java.function.MapPartitionsFunction;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.RowFactory;
+import org.apache.spark.sql.SparkSession;
 import org.apache.spark.sql.catalyst.encoders.RowEncoder;
 import org.apache.spark.sql.types.StructField;
 import org.apache.spark.sql.types.StructType;
@@ -17,6 +19,7 @@ import java.util.List;
 import static com.github.fge.jsonpatch.JsonPatch.fromJson;
 
 public class MapPartition {
+    private static DseGraphFrame gf;
 
     public static Dataset<Row> petitioner(Dataset<Row> merged) {
         StructType schema = merged.schema();
@@ -54,7 +57,8 @@ public class MapPartition {
         return ds;
     }
 
-    public static void updateGraph(DseGraphFrame gf, Dataset<Row> mapPartition) {
+    public static void updateGraph(SparkSession sparkSession, Dataset<Row> mapPartition) {
+        gf = DseGraphFrameBuilder.dseGraph("iap2", sparkSession);
         gf.updateVertices("Entity", mapPartition);
         System.out.println("update done");
     }

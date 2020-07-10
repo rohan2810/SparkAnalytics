@@ -53,7 +53,7 @@ public class UpdateJob {
 
         Dataset<Row> mapPartition = MapPartition.petitioner(merged);
 
-        MapPartition.updateGraph(gf, mapPartition);
+        MapPartition.updateGraph(sparkSession, mapPartition);
 
 
     }
