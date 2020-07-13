@@ -13,7 +13,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 
-public class UpdateJob {
+public class TestUpdateJob {
     private GraphTraversalSource g;
     private DseGraphFrame gf;
     private SparkSession sparkSession;
