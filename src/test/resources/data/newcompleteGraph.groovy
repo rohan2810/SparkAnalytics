@@ -8,11 +8,12 @@ g.addV("Alert").
         property("nativeType", "Platform Permission Set").
         property("ackRequired", true).
         property("level", Byte.valueOf("1")).
-        property("gid", "03177aa8-97d2-11ea-bb37-0242ac130001").
+        property("entityGlobalId", "03177aa8-97d2-11ea-bb37-0242ac130001" as UUID).
         property("updateTime", Instant.now()).
         property("raisedTime", Instant.parse("2014-01-01T00:00:00.00Z")).
         property("summary", "summarized message").
-        property("taskId", Short.valueOf("34")).property("alertType", "Schemaviolation").next()
+        property("taskId", Short.valueOf("34")).
+        property("alertType", "Schemaviolation").next()
 
 g.addV("Alert").
         property("tenantId", "tenant1").
@@ -20,7 +21,7 @@ g.addV("Alert").
         property("nativeType", "Platform Permission Set").
         property("ackRequired", true).
         property("level", Byte.valueOf("2")).
-        property("gid", ("03177aa8-97d2-11ea-bb37-0242ac130002")).
+        property("entityGlobalId", ("03177aa8-97d2-11ea-bb37-0242ac130002" as UUID)).
         property("raisedTime", Instant.parse("2014-01-01T00:00:00.00Z")).
         property("updateTime", Instant.now()).
         property("summary", "summarized message").
@@ -33,7 +34,7 @@ g.addV("Alert").
         property("nativeType", "Platform Permission Set").
         property("ackRequired", true).
         property("level", Byte.valueOf("1")).
-        property("gid", ("03177aa8-97d2-11ea-bb37-0242ac130003")).
+        property("entityGlobalId", ("03177aa8-97d2-11ea-bb37-0242ac130003" as UUID)).
         property("updateTime", Instant.now()).
         property("raisedTime", Instant.parse("2014-01-01T00:00:00.00Z")).
         property("summary", "summarized message").
@@ -46,7 +47,7 @@ g.addV("Alert").
         property("nativeType", "Platform Permission Set").
         property("ackRequired", true).
         property("level", Byte.valueOf("2")).
-        property("gid", ("03177aa8-97d2-11ea-bb37-0242ac130004")).
+        property("entityGlobalId", ("03177aa8-97d2-11ea-bb37-0242ac130004") as UUID).
         property("raisedTime", Instant.parse("2014-01-01T00:00:00.00Z")).
         property("updateTime", Instant.now()).
         property("summary", "summarized message").
@@ -89,8 +90,9 @@ g.addV("Event").
         property("tenantId", "tenant1").
         property("appId", "UnixPlatformPermissionSet").
         property("nativeType", "Platform Permission Set").
+        property('createTimeBucket','202005').
         property("createTime", Instant.parse("2014-01-01T00:00:00.00Z")).
-        property("gid", ("04177aa6-97d2-11ea-bb37-0242ac130001")).
+        property("entityGlobalId", ("81177aa6-97d2-11ea-bb37-0242ac130001") as UUID).
         property("eventCategory", "StageChange").
         property("type", "ModifyEntity").
         property("processId", "04177aa6-97d2-11ea-bb37-0242ac130002" as UUID).
@@ -100,7 +102,9 @@ g.addV("Event").
 
 g.V().has("Entity", "appId", "UnixPlatformPermissionSet").has("tenantId", "tenant1").
         has("nativeType", "Platform Permission Set").has("entityGlobalId", ("81177aa6-97d2-11ea-bb37-0242ac130001") as UUID).as("entity").
-        V().hasLabel("Event").has("appId", "UnixPlatformPermissionSet").has("nativeType", "Platform Permission Set").has("tenantId", "tenant1").has("eventCategory", "StageChange").has("createTime", Instant.parse("2014-01-01T00:00:00.00Z")).has("gid", ("04177aa6-97d2-11ea-bb37-0242ac130001")).as("event").
+        V().hasLabel("Event").has("appId", "UnixPlatformPermissionSet").has("nativeType", "Platform Permission Set").has("tenantId", "tenant1").
+        has('createBucketTime','202005').has("eventCategory", "StageChange").has("createTime", Instant.parse("2014-01-01T00:00:00.00Z")).
+        has("entityGlobalId", ("81177aa6-97d2-11ea-bb37-0242ac130001")).as("event").
         addE("With_Event").from("entity").to("event").next()
 
 
