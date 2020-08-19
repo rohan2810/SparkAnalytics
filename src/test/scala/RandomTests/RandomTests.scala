@@ -231,10 +231,10 @@ class RandomTests {
     val jsonStr1 = """{"name":"James","age":12,"longVal":45453453452,"bool":true,"short":32767,"details":{"firstname":"James ","age":14,"lastname":"Smith"},"Knows":[{"Language":"Java","why":"XX","since":120},{"Language":"Scala","why":"XA","since":300}],"LanguageAtWork":["Java","Scala","C++"],"MoreLanguages":["Spark","Java"]}"""
     val df = spark.read.json(Seq(jsonStr, jsonStr1).toDS())
     df.show()
-    val ds = df.map(
-      x => (EntityMeta.empty, x)
-    )(Encoders.tuple(Encoders.product[EntityMeta], RowEncoder(df.schema)))
-    ds.show()
+//    val ds = df.map(
+//      x => (EntityMeta.empty, x)
+//    )(Encoders.tuple(Encoders.product[EntityMeta], RowEncoder(df.schema)))
+//    ds.show()
 
 
   }
