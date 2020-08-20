@@ -32,11 +32,19 @@ public class protoTest {
         assertEquals(person.getName(), name);
         System.out.println(person.getPhonesList());
 
+
+        /*
+            Serialize
+         */
+
 //        AddressBookProtos.AddressBook addressBook = AddressBookProtos.AddressBook.newBuilder().addPeople(person).build();
 //        FileOutputStream fos = new FileOutputStream("/Users/rohansurana/IdeaProjects/work/SparkAnalytics/src/test/resources/protoSaved");
 //        addressBook.writeTo(fos);
 
 
+        /*
+            De-serialize
+         */
         AddressBookProtos.AddressBook deserialized
                 = AddressBookProtos.AddressBook.newBuilder()
                 .mergeFrom(new FileInputStream("/Users/rohansurana/IdeaProjects/work/SparkAnalytics/src/test/resources/protoSaved")).build();
