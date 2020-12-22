@@ -5,7 +5,7 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 
 import javax.jms.*;
 
-public class ReceiveMessage {
+public class ReceiveMessageJava {
     // URL of the JMS server
     private static String url = ActiveMQConnection.DEFAULT_BROKER_URL;
     // default broker URL is : tcp://localhost:61616"
