@@ -27,12 +27,14 @@ public class SendMessage {
 
         // We will send a small text message saying 'Hello World!!!'
         TextMessage message = session
-                .createTextMessage("Hello !!! Welcome to the world of ActiveMQ.");
+                .createTextMessage("mess");
+        message.setStringProperty("header", "A");
+        TextMessage message1 = session.createTextMessage("mess");
+        message1.setStringProperty("header", "B");
 
         // Here we are sending our message!
         producer.send(message);
-
-        System.out.println("JCG printing@@ '" + message.getText() + "'");
+        producer.send(message1);
         connection.close();
     }
 }
