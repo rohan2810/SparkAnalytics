@@ -24,17 +24,19 @@ public class SendMessage {
 
         // MessageProducer is used for sending messages to the queue.
         MessageProducer producer = session.createProducer(destination);
+        producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
 
         // We will send a small text message saying 'Hello World!!!'
         TextMessage message = session
                 .createTextMessage("mess");
-        message.setStringProperty("header", "A");
+        message.setStringProperty("analysis", "A");
         TextMessage message1 = session.createTextMessage("mess");
-        message1.setStringProperty("header", "B");
+        message1.setStringProperty("analysis", "B");
 
         // Here we are sending our message!
         producer.send(message);
         producer.send(message1);
         connection.close();
+        System.out.println("Sent");
     }
 }
