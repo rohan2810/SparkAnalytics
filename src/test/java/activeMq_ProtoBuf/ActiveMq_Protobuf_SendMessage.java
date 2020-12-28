@@ -47,6 +47,7 @@ public class ActiveMq_Protobuf_SendMessage {
         session = connection.createSession(false,
                 Session.AUTO_ACKNOWLEDGE);
         String subject = "WITH PROTOBUF";
+        
         Destination destination = session.createQueue(subject);
         producer = session.createProducer(destination);
 
