@@ -1,13 +1,11 @@
 package ActiveMq
 
-import java.util.Properties
-
 import javax.jms._
 import org.apache.activemq.{ActiveMQConnection, ActiveMQConnectionFactory}
 
 object ReceiveMessage {
   val url: String = ActiveMQConnection.DEFAULT_BROKER_URL
-  val subject = "JCG_QUEUE"
+  val subject = "outgoingReplyQueue"
   var connFactory: ActiveMQConnectionFactory = _
   var conn: Connection = _
   var session: Session = _
@@ -36,7 +34,14 @@ object ReceiveMessage {
             case "B" => println("Got B")
           }
         }
-      case _ =>
+      case bytesMessage: BytesMessage =>
+        val byteMessage = bytesMessage.asInstanceOf[BytesMessage]
+        val byteData = new Array[Byte](byteMessage.getBodyLength.toInt)
+        byteMessage.readBytes(byteData)
+        byteMessage.reset()
+        val stringMessage = new String(byteData)
+        println(stringMessage)
+
     }
   }
 
