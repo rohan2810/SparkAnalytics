@@ -90,7 +90,7 @@ g.addV("Event").
         property("tenantId", "tenant1").
         property("appId", "UnixPlatformPermissionSet").
         property("nativeType", "Platform Permission Set").
-        property('createTimeBucket','202005').
+        property('createTimeBucket', '202005').
         property("createTime", Instant.parse("2014-01-01T00:00:00.00Z")).
         property("entityGlobalId", ("81177aa6-97d2-11ea-bb37-0242ac130001") as UUID).
         property("eventCategory", "StageChange").
@@ -103,7 +103,7 @@ g.addV("Event").
 g.V().has("Entity", "appId", "UnixPlatformPermissionSet").has("tenantId", "tenant1").
         has("nativeType", "Platform Permission Set").has("entityGlobalId", ("81177aa6-97d2-11ea-bb37-0242ac130001") as UUID).as("entity").
         V().hasLabel("Event").has("appId", "UnixPlatformPermissionSet").has("nativeType", "Platform Permission Set").has("tenantId", "tenant1").
-        has('createBucketTime','202005').has("eventCategory", "StageChange").has("createTime", Instant.parse("2014-01-01T00:00:00.00Z")).
+        has('createBucketTime', '202005').has("eventCategory", "StageChange").has("createTime", Instant.parse("2014-01-01T00:00:00.00Z")).
         has("entityGlobalId", ("81177aa6-97d2-11ea-bb37-0242ac130001")).as("event").
         addE("With_Event").from("entity").to("event").next()
 

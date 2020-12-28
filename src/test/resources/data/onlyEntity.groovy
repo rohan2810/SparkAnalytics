@@ -13,7 +13,7 @@ g.addV("Entity").
         property("status", "Active").
         property("name", "John Doe").
         property("status", "open").
-        property("data","{\"name\":\"jdoe\",\"role\":\"role1\",\"age\":34}").
+        property("data", "{\"name\":\"jdoe\",\"role\":\"role1\",\"age\":34}").
         property("metaType", "type1").next()
 
 g.addV("Entity").
@@ -27,7 +27,7 @@ g.addV("Entity").
         property("status", "Active").
         property("name", "John Doe").
         property("status", "cloase").
-        property("data","{\"name\":\"jdoe2\",\"role\":\"role2\",\"age\":45}").
+        property("data", "{\"name\":\"jdoe2\",\"role\":\"role2\",\"age\":45}").
         property("metaType", "type2").next()
 
 g.addV("Entity").
@@ -41,7 +41,7 @@ g.addV("Entity").
         property("status", "Active").
         property("name", "John Doe").
         property("status", "open").
-        property("data","{\"name\":\"jdoe3\",\"role\":\"role3\",\"age\":15}").
+        property("data", "{\"name\":\"jdoe3\",\"role\":\"role3\",\"age\":15}").
         property("metaType", "type1").next()
 
 g.addV("Entity").
@@ -55,7 +55,7 @@ g.addV("Entity").
         property("status", "Active").
         property("name", "John Doe").
         property("status", "cloase").
-        property("data","{\"name\":\"jdoe4\",\"role\":\"role4\",\"age\":7841}").
+        property("data", "{\"name\":\"jdoe4\",\"role\":\"role4\",\"age\":7841}").
         property("metaType", "type2").next()
 
 g.addV("Entity").
@@ -69,7 +69,7 @@ g.addV("Entity").
         property("status", "Active").
         property("name", "John Doe").
         property("status", "cloase").
-        property("data","{\"name\":\"jdoe5\",\"role\":\"role5\",\"age\":78}").
+        property("data", "{\"name\":\"jdoe5\",\"role\":\"role5\",\"age\":78}").
         property("metaType", "type2").next()
 
 /*

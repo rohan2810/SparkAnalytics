@@ -57,6 +57,7 @@ public final class AddressBookProtos {
                 internal_static_Protobuf_AddressBook_descriptor,
                 new java.lang.String[]{"People",});
     }
+
     private AddressBookProtos() {
     }
 
@@ -74,6 +75,7 @@ public final class AddressBookProtos {
     getDescriptor() {
         return descriptor;
     }
+
     public interface PersonOrBuilder extends
             // @@protoc_insertion_point(interface_extends:Protobuf.Person)
             com.google.protobuf.MessageOrBuilder {
@@ -853,6 +855,7 @@ public final class AddressBookProtos {
             private volatile java.lang.Object number_;
             private int type_;
             private byte memoizedIsInitialized = -1;
+
             // Use PhoneNumber.newBuilder() to construct.
             private PhoneNumber(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
                 super(builder);
@@ -2261,6 +2264,7 @@ public final class AddressBookProtos {
         private AddressBook() {
             people_ = java.util.Collections.emptyList();
         }
+
         private AddressBook(
                 com.google.protobuf.CodedInputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)

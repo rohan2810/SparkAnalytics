@@ -14,11 +14,12 @@ import org.testng.annotations.Test;
 import java.sql.SQLException;
 
 public class JdbcConnection {
-    SparkSession sparkSession;
-    Dataset<Row> jdbcDF;
     private final String url = "jdbc:postgresql://localhost:5432/testdb";
     private final String user = "rohansurana";
     private final String password = "";
+    SparkSession sparkSession;
+    Dataset<Row> jdbcDF;
+
     @BeforeTest
     public void init() {
         SparkConf conf = new SparkConf();

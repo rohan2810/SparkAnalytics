@@ -3,8 +3,6 @@ import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
-import org.apache.tinkerpop.gremlin.structure.Graph;
-//import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
@@ -13,6 +11,8 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import java.io.FileReader;
 import java.io.Reader;
+
+//import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph;
 
 public class TestEntityMapper {
     private GraphTraversalSource g;

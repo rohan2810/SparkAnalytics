@@ -4,8 +4,6 @@ import org.apache.spark.sql.types.{DataTypes, StructField, StructType}
 import org.apache.spark.sql.{Dataset, Row}
 
 trait WriteProbableEntities {
-  def write(tenantId: String, parameters: Map[String, Object], dataset: Dataset[Row])
-
   val schema: StructType = StructType(
     StructField("ID", DataTypes.StringType, nullable = true) ::
       StructField("PROCESS_ID", DataTypes.StringType, nullable = true) ::
@@ -28,4 +26,6 @@ trait WriteProbableEntities {
       StructField("CHANGELOG", DataTypes.StringType, nullable = true) ::
       StructField("CREATE_TS", DataTypes.TimestampType, nullable = true) ::
       Nil)
+
+  def write(tenantId: String, parameters: Map[String, Object], dataset: Dataset[Row])
 }

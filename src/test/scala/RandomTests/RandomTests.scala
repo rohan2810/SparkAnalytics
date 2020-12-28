@@ -7,9 +7,8 @@ import com.fasterxml.jackson.databind.node.{ArrayNode, ObjectNode}
 import com.fasterxml.jackson.databind.{JsonNode, ObjectMapper}
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import groovy.transform.TailRecursive
-import org.apache.spark.sql.catalyst.encoders.RowEncoder
 import org.apache.spark.sql.types._
-import org.apache.spark.sql.{Encoders, Row, SparkSession}
+import org.apache.spark.sql.{Row, SparkSession}
 import org.testng.annotations.Test
 
 
@@ -160,6 +159,54 @@ class RandomTests {
 
   }
 
+  @Test
+  def recursion(): Unit = {
+    org.testng.Assert.assertEquals(120, facto(5))
+
+  }
+
+  @Test
+  def jsonToDf(): Unit = {
+    import spark.implicits._
+    val jsonStr = """{"name":"James","age":12,"longVal":45453453452,"bool":true,"short":32767,"details":{"firstname":"James ","age":14,"lastname":"Smith"},"Knows":[{"Language":"Java","why":"XX","since":120},{"Language":"Scala","why":"XA","since":300}],"LanguageAtWork":["Java","Scala","C++"],"MoreLanguages":["Spark","Java"]}"""
+    val jsonStr1 = """{"name":"James","age":12,"longVal":45453453452,"bool":true,"short":32767,"details":{"firstname":"James ","age":14,"lastname":"Smith"},"Knows":[{"Language":"Java","why":"XX","since":120},{"Language":"Scala","why":"XA","since":300}],"LanguageAtWork":["Java","Scala","C++"],"MoreLanguages":["Spark","Java"]}"""
+    val df = spark.read.json(Seq(jsonStr, jsonStr1).toDS())
+    df.show()
+    //    val ds = df.map(
+    //      x => (EntityMeta.empty, x)
+    //    )(Encoders.tuple(Encoders.product[EntityMeta], RowEncoder(df.schema)))
+    //    ds.show()
+
+
+  }
+
+  @Test
+  def datasetFromRowFromScalaObjects(): Unit = {
+
+    val list = new util.ArrayList[AnyRef]()
+    list.add("adsd")
+    list.add("sdf")
+    list.add("dfdf")
+
+    import scala.collection.JavaConverters._
+    val l = new java.util.ArrayList[java.lang.String]
+    l.add("dfdf")
+    l.add("dsdsd")
+    val s = l.asScala
+    println(s.mkString(","))
+  }
+
+  @Test
+  def jsonFromScalaMap(): Unit = {
+    val map = Map("Rohan" -> Seq(("ROhan", "rojs", "rihsd")))
+    val seq = Seq("ROhan", "ejife", "rfuef")
+    val objectMapper = new ObjectMapper()
+    objectMapper.registerModule(DefaultScalaModule)
+    val jsonNode: String = objectMapper.writeValueAsString(seq)
+    println(jsonNode.getClass)
+
+  }
+
   private def jsonMapper(row: Row, schema: StructType): JsonNode = {
 
     val node: ObjectNode = objectMapper.createObjectNode()
@@ -212,59 +259,10 @@ class RandomTests {
     node
   }
 
-  @Test
-  def recursion(): Unit = {
-    org.testng.Assert.assertEquals(120, facto(5))
-
-  }
-
   @TailRecursive
   private def facto(n: Int): Int = {
     if (n == 1) 1
     else n * facto(n - 1)
-  }
-
-  @Test
-  def jsonToDf(): Unit = {
-    import spark.implicits._
-    val jsonStr = """{"name":"James","age":12,"longVal":45453453452,"bool":true,"short":32767,"details":{"firstname":"James ","age":14,"lastname":"Smith"},"Knows":[{"Language":"Java","why":"XX","since":120},{"Language":"Scala","why":"XA","since":300}],"LanguageAtWork":["Java","Scala","C++"],"MoreLanguages":["Spark","Java"]}"""
-    val jsonStr1 = """{"name":"James","age":12,"longVal":45453453452,"bool":true,"short":32767,"details":{"firstname":"James ","age":14,"lastname":"Smith"},"Knows":[{"Language":"Java","why":"XX","since":120},{"Language":"Scala","why":"XA","since":300}],"LanguageAtWork":["Java","Scala","C++"],"MoreLanguages":["Spark","Java"]}"""
-    val df = spark.read.json(Seq(jsonStr, jsonStr1).toDS())
-    df.show()
-//    val ds = df.map(
-//      x => (EntityMeta.empty, x)
-//    )(Encoders.tuple(Encoders.product[EntityMeta], RowEncoder(df.schema)))
-//    ds.show()
-
-
-  }
-
-  @Test
-  def datasetFromRowFromScalaObjects(): Unit = {
-
-    val list = new util.ArrayList[AnyRef]()
-    list.add("adsd")
-    list.add("sdf")
-    list.add("dfdf")
-
-    import scala.collection.JavaConverters._
-    val l = new java.util.ArrayList[java.lang.String]
-    l.add("dfdf")
-    l.add("dsdsd")
-    val s = l.asScala
-    println(s.mkString(","))
-  }
-
-
-  @Test
-  def jsonFromScalaMap(): Unit = {
-    val map = Map("Rohan" -> Seq(("ROhan","rojs","rihsd")))
-    val seq = Seq("ROhan","ejife","rfuef")
-    val objectMapper = new ObjectMapper()
-    objectMapper.registerModule(DefaultScalaModule)
-    val jsonNode: String = objectMapper.writeValueAsString(seq)
-    println(jsonNode.getClass)
-
   }
 }
 
