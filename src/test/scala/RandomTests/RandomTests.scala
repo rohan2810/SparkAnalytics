@@ -11,6 +11,8 @@ import org.apache.spark.sql.types._
 import org.apache.spark.sql.{Row, SparkSession}
 import org.testng.annotations.Test
 
+import scala.collection.mutable
+
 
 class RandomTests {
   val spark = SparkSession.builder()
@@ -205,6 +207,23 @@ class RandomTests {
     val jsonNode: String = objectMapper.writeValueAsString(seq)
     println(jsonNode.getClass)
 
+  }
+
+  @Test
+  def scalaMap(): Unit = {
+    var map = Map.empty[Int, Int]
+    map += (4 -> 4)
+    println(map)
+
+  }
+
+  @Test
+  def arrayVswrappedArray(): Unit = {
+    val warr: mutable.WrappedArray[Int] = mutable.WrappedArray.make(Array(1, 2, 3))
+
+    val warr1: mutable.WrappedArray[Int] = Array(1, 2, 3) // implicit conversion
+    val arr1: Array[Int] = warr1.array
+    println(warr.toSet[Int].subsetOf(arr1.toSet[Int]))
   }
 
   private def jsonMapper(row: Row, schema: StructType): JsonNode = {

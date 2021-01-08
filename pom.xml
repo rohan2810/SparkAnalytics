@@ -33,11 +33,14 @@
             <version>${groovy.version}</version>
             <type>pom</type>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-mllib -->
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-mllib_2.12</artifactId>
-            <version>${spark.version}</version>
+            <version>3.1.0</version>
+            <scope>provided</scope>
         </dependency>
+
 
         <dependency>
             <groupId>org.apache.spark</groupId>
