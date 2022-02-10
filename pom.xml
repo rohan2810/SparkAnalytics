@@ -14,7 +14,7 @@
         <logback.version>1.2.3</logback.version>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
-        <postgres.jdbc.version>9.4-1206-jdbc4</postgres.jdbc.version>
+        <postgres.jdbc.version>42.2.25</postgres.jdbc.version>
         <groovy.version>2.5.6</groovy.version>
         <json.patch.version>1.12-SNAPSHOT</json.patch.version><!-- Json Patch API -->
         <protobuf.version>3.16.1</protobuf.version>
